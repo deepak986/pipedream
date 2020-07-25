@@ -1,0 +1,367 @@
+import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
+import Header from './components/Header';
+import Section from './components/Section';
+import {DataProvider} from './components/Context'
+import "./App.css" 
+
+class App extends React.Component{
+  render(){
+    return(
+    <DataProvider>
+      <div className="app">
+      <Router>
+        <Header/>
+        <Section/>
+      </Router>
+    <div className="img1">
+    <img src="https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw4604450e/images/e_08/M9160_E_08X1.jpg?sw=406" width="320" height="315"/>
+    </div>
+    <div className="img2">
+    <img src="https://r1.ilikewallpaper.net/pic/201603/papers_co_af73_jordan_fly_wade_nike_shoe_art_34_iphone6_plus_wallpaper_640.jpg" width="365" height="312"/>
+    </div>
+    <div className="img3">
+    <img src="https://s1.thcdn.com/productimg/1600/1600/11520123-1834546810544403.jpg" width="320" height="329"/>
+    </div>
+    <div className="img4">
+    <img src="https://wallpapercave.com/wp/wp2005982.jpg" width="310" height="310"/>
+    </div>
+    <div className="img5">
+    <img src="https://assets.teenvogue.com/photos/5d028aefabe0731c4a4cf056/master/w_1600%2Cc_limit/0729663004_201909_PP_0091.jpg" width="327" height="315"/>
+    </div>
+    <div className="img6">
+    <img src="https://wallpapercave.com/wp/wp3699065.jpg" width="325" height="315"/>
+    </div>
+    </div>
+    </DataProvider>
+    );
+  }
+}
+
+export default App;
+
+import React, {Component} from 'react';
+import Menu from './svg/bars-solid.svg.svg';
+import Close from './svg/times-solid.svg.svg';
+import CartIcon  from './svg/shopping-cart-solid.svg.svg';
+import {Link} from 'react-router-dom';
+import './Header.css';
+
+
+export class Header extends Component{
+
+    state = {
+        toggle:false
+    }
+
+    menuToggle = () =>{
+        this.setState({toggle: !this.state.toggle})
+    }
+  render(){
+      const {toggle} = this.state;
+    return(
+        <header>
+            <div className="menu" onClick={this.menuToggle}>
+               <img src={Menu} width="20"/>
+            </div>
+        <div className="logo">
+            <h1><Link to="/">Converse</Link></h1>
+        </div>
+    <nav>
+        <ul className={toggle ? "toggle" : ""}>
+            <li><Link>Home</Link></li>
+            <li><Link to="/product">Product</Link></li>
+            <li><Link>Contact</Link></li>
+            <li><Link>About</Link></li>
+            <li><Link>Login / Register</Link></li>
+            <li className="close" onClick={this.menuToggle}>
+                <img src={Close} width="20"/>
+            </li>
+        </ul>
+    <div className="nav-cart">
+        <span>0</span>
+        <Link to="/cart">
+        <img src={CartIcon} width="20"/>
+        </Link>
+    </div>
+    </nav>
+
+        </header>
+    );
+  }
+}
+
+export default Header;
+
+import React, { Component } from 'react';
+
+export const DataContext = React.createContext();
+
+export class DataProvider extends Component{
+
+    state = {
+        products: [
+            {
+            "_id": "1",
+            "title": "Converse Chunky Sneakers",
+            "content": "Welcome to our website",
+            "discription": "Men's Shoe",
+            "price": 5000,
+            "colors": ["black", "white", "red"],
+            "count": 1
+            },
+            {
+            "_id": "2",
+            "title": "Nike Jordan",
+            "discription": "Bring the past into the future with the Nike Jordan",
+            "price": 15000,
+            "colors": ["black", "white", "red", "violet"],
+            "count": 1
+            },
+            {
+            "_id": "3",
+            "title": "Jack and Jones",
+            "discription": "Only few left",
+            "price": 500,
+            "colors": ["black", "white", "red", "lightblue"],
+            "count": 1
+            },
+            {
+            "_id": "4",
+            "title": "Addidas Yeezy",
+            "discription": "Premium Collection",
+            "price": 25000,
+            "colors": ["black", "white", "red", "teal"],
+            "count": 1
+            },
+            {
+            "_id": "5",
+            "title": "Araina Grande",
+            "discription": "Merch Collection",
+            "price": 2000,
+            "colors": ["black", "white", "red"],
+            "count": 1
+            },
+            {
+            "_id": "6",
+            "title": "Addidas yeezy 350",
+            "src": "img/yeexy2.jpg",
+            "discription": "Almost Gone!!",
+            "price": 35000,
+            "colors": ["orange", "white", "red", "violet"],
+            "count": 1
+            },
+        ]
+    }
+  render() {
+      const {products} = this.state;
+
+    return (
+        <DataContext.Provider value={{products}}>
+            {this.props.children}
+        </DataContext.Provider>
+    )
+  }
+}
+header{
+    min-height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+}
+header .logo a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: black;
+}
+header nav{
+    display: flex;
+}
+nav ul li{
+    list-style: none;
+    display: inline-block;
+}
+nav ul li a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #555;
+    padding: 0 15px;
+}
+nav ul li a:hover{
+    color: lightseagreen;
+}
+nav .nav-cart{
+    cursor: pointer;
+    position: absolute;
+    top: 4%;
+    right: 17%;
+}
+nav .nav-cart span{
+    position: absolute;
+    top: -11px;
+    right: -7px;
+    background: red;
+    font-size: 10px;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 50%;
+    z-index: -1;
+}
+header .menu,
+header .close{
+    cursor: pointer;
+    display: none;
+}
+@media (max-width: 650px){
+    header ul{
+        position: fixed;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        background: white;
+        z-index: 99;
+        opacity: 0.97;
+        transition: 0.5s linear;
+    }
+    header .menu,
+    header .close{
+        display: block;
+    }
+    header .close{
+        position: absolute;
+        top: 10px;
+        left: 480px;
+    }
+    header ul.toggle{
+        top: 0;
+    }
+}
+import React, {Component} from 'react';
+import Products from './section/Products';
+import Details from './section/Details';
+import {Route} from "react-router-dom";
+
+export class Section extends Component {
+    render() {
+        return(
+            <section>
+                <Route path="/product" component={Products} exact />
+                <Route path="/product/:id"/>
+            </section>
+        );
+    }
+}
+
+export default Section;.app .img1{
+  position: absolute;
+  top: 14%;
+  left: 13%;
+}
+.app .img2{
+  position: absolute;
+  top: 15%;
+  left: 38%;
+}
+.app .img3{
+  position: absolute;
+  top: 12%;
+  left: 66%;
+}
+.app .img4{
+  position: absolute;
+  top: 73%;
+  left: 14%;
+}
+.app .img5{
+  position: absolute;
+  top: 72%;
+  left: 39%;
+}
+.app .img6{
+  position: absolute;
+  top: 72%;
+  left: 65%;
+}
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom'
+import {DataContext} from '../Context'
+import './Products.css'
+
+export class Products extends Component {
+
+    static contextType = DataContext;
+
+    render() {
+        const {products} = this.context;
+        return (
+            <div id="product">
+                {
+                    products.map(product =>(
+                        <div className="card" key={product._id}>
+                            <Link to={'/product/${product.title}'}>
+                                <img src={"product.src"}/>
+                            </Link>
+                            <div className="content">
+                                <h3>
+                                    <Link to={'product/${product.title}'}>{product.title}</Link>
+                                </h3>
+                                <span>${product.price}</span>
+                                <p>{product.discription}</p>
+                            </div>
+
+                        </div>
+                    ))
+                }
+            </div>
+        )
+    }
+}
+
+export default Products;
+#product{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.card{
+    min-width: 300px;
+    min-height: 400px;
+    border: 1px white;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 2px 8px 20px #ddd;
+    margin: 10px;
+    transition: 0.5s linear;
+}
+.card:hover{
+    box-shadow: none;
+}
+.card img{
+    max-width: 300px;
+    height: 100%;
+    width: 100%;
+    max-height: 300px;
+    display: block;
+    object-fit: cover;
+}
+.card h3{
+    text-transform: uppercase;
+    margin: 10px 0;
+}
+.card h3 a{
+    text-decoration: none;
+    color: #333;
+}
+.card span{
+    color: crimson;
+}
+.card p{
+    margin: 10px 0;
+}
